@@ -1,2 +1,6 @@
 #!/bin/bash
-sudo java -Xdebug -cp ./bin/ battlesnake/application/Boot_Server
+if [ "$1" == "-d" ]
+then	DEBUG="-Xdebug"
+else	DEBUG=
+fi
+sudo java $DEBUG -cp ./bin/ battlesnake/application/Boot_Server

@@ -227,7 +227,7 @@ public class Boot_Server {
 			}
 			/* Oops */
 			catch (Exception e) {
-				boolean DEBUG = true;
+				boolean DEBUG = false;
 				Log.Add(this, Log.TYPE_FATAL, "Error: " + e.getMessage());
 				if (DEBUG)
 					e.printStackTrace();
