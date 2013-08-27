@@ -1,0 +1,2 @@
+#!/bin/bash
+sudo java -Xdebug -cp ./bin/ battlesnake/application/Boot_Server

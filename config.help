@@ -1,0 +1,105 @@
+## See src/battlesnake/bootserver/Configuration.java for the Configuration
+## class, which this file was created from (with some regular expression
+## translation)
+##
+## The configuration file (default: config.conf) is just a list of key=value
+## lines with no comments or data types specified.  Only IPv4 is supported
+## currently, mainly out of laziness since I can't see a situation where you'd
+## require IPv6 to communicate within a home/office network.
+##
+## ipaddr=xxx.xxx.xxx.xxx
+## string="<text>"
+## boolean=true/false
+## number=<decimal>
+
+## Device to bind to
+# Interface name (e.g. eth0)
+string	network_interface
+# Interface address (e.g. 192.169.10.1)
+ipaddr	network_address
+
+## DHCP server parameters
+# Enable the DHCP service
+boolean dhcp_enabled
+# Log all DHCP packets
+boolean dhcp_log_packets
+# Authoritive DHCP server?  If true, it will hijack packets messages intended
+# for other DHCP servers.  Use if this is the only DHCP server on the network,
+# or if you don't mind breaking other people's connectivity
+boolean dhcp_authoritive = true;
+# The port that the server should listen on.  Note: ports <1024 require
+# privileges on *n?x, so remember to run as root/sudo, or even better:
+# configure the network privileges properly to begin with...
+# Default = 67 (RFC 1541)
+number	dhcp_server_port
+# The client port to send responses to.  Default = 68 (RFC 1541)
+number	dhcp_client_port
+# The address of the DHCP subnet (e.g. 192.168.10.0)
+ipaddr	dhcp_pool_address = 0;
+# The offset for the first address of the DHCP pool (e.g. 100)
+number	dhcp_pool_offset = 0;
+# The number of addresses in the pool (e.g. 20)
+number	dhcp_pool_length = 0;
+# The subnet mask to issue (e.g. 255.255.255.0)
+netmask	dhcp_subnet_mask = 0;
+# Whether to enforce the subnet (deny requests for addresses outside the
+# subnet)
+boolean dhcp_enforce_subnet = true;
+# Ignore packets that aren't broadcasted
+boolean dhcp_broadcasts_only = true;
+# Delay before replying
+number	dhcp_reply_delay = 0;
+
+## Other DHCP parameters
+# If an address = 127.0.0.1, it will be replaced by the interface address
+# which may be set in the <network_address> field
+# Address of time server (optional)
+number	dhcp_opt_time_server_address
+# Address of default gateway (optional, but net-installing Linux is pretty dead
+# without it)
+number	dhcp_opt_gateway_address
+# Address of DNS server (optional, but see previous comment)
+number	dhcp_opt_dns_server_address
+# DNS domain
+string	dhcp_opt_dns_domain
+# Address of boot server (set to zero to use this server, if the TFTP service
+# is enabled)
+number	dhcp_opt_boot_server_address
+
+## TFTP server (note: this as NOTHING at all to do with FTP)
+# Enable the TFTP service
+boolean tftp_enabled
+# The port for the TFTP server to listen on.  Default = 69 (RFC 783)
+number	tftp_server_port
+# Log TFTP packets
+boolean tftp_log_packets
+
+## TFTP root folder
+# Files and folders within this are accessible via the TFTP server, if enabled
+# e.g. /var/tftp
+string	tftp_root_folder
+
+## Windows symlink hack for TFTP server:
+## 
+## Some Linux network install tarballs contain symbolic links, which
+## obviously don't work on Windows are will just appear to be text files
+## containing the path to the target file. This symlink hack attempts to
+## identify and follow such files, allowing network installers for
+## various Linux distributions to be served from a Windows host.
+## 
+## The heuristic to detect these symlinks is as follows:
+## - File size < 200 bytes
+## - File contents ~= /^[A-Za-z0-9-_\.]+$/
+## 
+## The contents of a matching file are treated as a relative path and
+## the link is followed by the server.
+## 
+# TODO: ensure that the path parser follows each path element as it
+# decodes them, so it can follow symlinks to directories.
+boolean tftp_windows_symlink_hack
+
+## BOOTP/DHCP filename
+# e.g. "pxelinux.0" for typical Linux network installer (particularly Ubuntu)
+string	boot_file = "pxelinux.0";
+# If zero, the server will calculate the size automatically
+number	boot_file_size = 0;
