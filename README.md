@@ -1,4 +1,5 @@
 bootserver
+battlesnake
 ==========
 
 Partial DHCP/BOOTP/TFTP server, sufficient for serving PXE network installers
